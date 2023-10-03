@@ -1,6 +1,5 @@
 # Building Real-Time RESTful APIs with Spring - Blog App
 
-![Project Logo](https://sunai.cl/wp-content/uploads/logo-rest-api.png) 
 <div align="center">
   <img src="https://sunai.cl/wp-content/uploads/logo-rest-api.png" alt="Project Logo">
 </div>
