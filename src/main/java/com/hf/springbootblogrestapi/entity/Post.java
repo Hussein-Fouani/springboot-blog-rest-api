@@ -12,9 +12,8 @@ import lombok.*;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long Id;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true,nullable = false,name = "title")
     private String Title;
     @Column(nullable = false)
     private String description ;
