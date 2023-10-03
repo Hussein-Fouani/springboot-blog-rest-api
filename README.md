@@ -4,8 +4,6 @@
   <img src="https://sunai.cl/wp-content/uploads/logo-rest-api.png" alt="Project Logo">
 </div>
 
-![Project Logo/Icon](logo.png) *(If applicable)*
-
 ## Table of Contents
 
 - [About](#about)
