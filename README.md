@@ -100,5 +100,3 @@ Follow the [AWS Deployment Guide](aws-deployment.md) for step-by-step instructio
 
 Feel free to customize this README with your specific project details, and replace placeholders like `https://github.com/yourusername/spring-blog-app.git` with the actual links and information.
 ---
-
-Feel free to customize this README with your specific project details, and replace placeholders like `https://github.com/yourusername/spring-blog-app.git` with the actual links and information.
