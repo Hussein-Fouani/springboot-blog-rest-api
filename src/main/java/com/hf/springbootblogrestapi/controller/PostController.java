@@ -2,6 +2,7 @@ package com.hf.springbootblogrestapi.controller;
 
 
 import com.hf.springbootblogrestapi.DTOS.PostDTO;
+import com.hf.springbootblogrestapi.DTOS.PostResponse;
 import com.hf.springbootblogrestapi.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,10 @@ public class PostController {
 
     }
     @GetMapping
-    public List<PostDTO> getallposts(@RequestParam(value = "pageNo",required = false,defaultValue = "0") int pageNo,
-                                     @RequestParam(value = "pageSize",required = false,defaultValue = "10") int pageSize){
-        return postService.getAllPosts(pageNo,pageSize);
+    public PostResponse getallposts(@RequestParam(value = "pageNo",required = false,defaultValue = "0") int pageNo,
+                                    @RequestParam(value = "pageSize",required = false,defaultValue = "10") int pageSize,
+                                    @RequestParam(value = "sortBy",required = false,defaultValue = "id")String sortBy){
+        return postService.getAllPosts(pageNo,pageSize,sortBy);
     }
     @GetMapping("{Id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable(name = "Id") long Id){
