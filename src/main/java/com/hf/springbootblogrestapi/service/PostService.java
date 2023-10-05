@@ -1,13 +1,12 @@
 package com.hf.springbootblogrestapi.service;
 
 import com.hf.springbootblogrestapi.DTOS.PostDTO;
-
-import java.util.List;
+import com.hf.springbootblogrestapi.DTOS.PostResponse;
 
 public interface PostService {
     PostDTO creatPost(PostDTO postDTO);
 
-    List<PostDTO> getAllPosts(int pageNo,int pageSize);
+    PostResponse getAllPosts(int pageNo, int pageSize,String sortBy);
 
     PostDTO getPostbyId(long Id);
 
