@@ -96,7 +96,3 @@ Understand how to add profiles for deploying in different environments in the [P
 
 Follow the [AWS Deployment Guide](aws-deployment.md) for step-by-step instructions on deploying the Spring boot Blog app on AWS cloud for production.
 
----
-
-Feel free to customize this README with your specific project details, and replace placeholders like `https://github.com/yourusername/spring-blog-app.git` with the actual links and information.
----
