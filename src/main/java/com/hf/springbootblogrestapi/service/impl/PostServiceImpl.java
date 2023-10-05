@@ -1,6 +1,7 @@
 package com.hf.springbootblogrestapi.service.impl;
 
 import com.hf.springbootblogrestapi.DTOS.PostDTO;
+import com.hf.springbootblogrestapi.DTOS.PostResponse;
 import com.hf.springbootblogrestapi.entity.Post;
 import com.hf.springbootblogrestapi.exception.ResourceNotFoundException;
 import com.hf.springbootblogrestapi.repository.PostRepository;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +31,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
 
-    public List<PostDTO> getAllPosts(int pageNo,int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo,pageSize);
+    public PostResponse getAllPosts(int pageNo, int pageSize,String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo,pageSize, Sort.by(sortBy));
         Page<Post> list = postRepository.findAll(pageable);
         List<Post> listofPosts = list.getContent();
-        return listofPosts.stream().map(this::maptoDTO).collect(Collectors.toList());
-
+        List<PostDTO> content = listofPosts.stream().map(this::maptoDTO).collect(Collectors.toList());
+        PostResponse  postResponse = new PostResponse();
+        postResponse.setContent(content);
+        postResponse.setPageNo(list.getNumber());
+        postResponse.setPageSize(list.getSize());
+        postResponse.setTotalElements(list.getTotalElements());
+        postResponse.setTotalPages(list.getTotalPages());
+        return postResponse;
     }
 
     @Override
