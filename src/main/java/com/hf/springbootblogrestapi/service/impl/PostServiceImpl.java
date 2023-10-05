@@ -2,6 +2,7 @@ package com.hf.springbootblogrestapi.service.impl;
 
 import com.hf.springbootblogrestapi.DTOS.PostDTO;
 import com.hf.springbootblogrestapi.entity.Post;
+import com.hf.springbootblogrestapi.exception.ResourceNotFoundException;
 import com.hf.springbootblogrestapi.repository.PostRepository;
 import com.hf.springbootblogrestapi.service.PostService;
 import lombok.AllArgsConstructor;
@@ -32,8 +33,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getPostbyId(Long Id) {
-        PostDTO postDTO= postRepository.findById(Id).stream().map(this::maptoDTO).collect(Collectors.toList());
+    public PostDTO getPostbyId(long Id) {
+        Post post = postRepository.findById(Id).orElseThrow(()->
+            new ResourceNotFoundException("Post","Id",Id))  ;
+        return maptoDTO(post);
+    }
+
+    @Override
+    public PostDTO UpdatePostById(long id, PostDTO postDTO) {
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id));
+        post.setTitle(postDTO.getTitle());
+        post.setContent(postDTO.getContent());
+        post.setDescription(post.getDescription());
+
+       Post post1 = postRepository.save(post);
+         return maptoDTO(post1);
+    }
+
+    @Override
+    public void deletePost(long id) {
+        Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id));
+        postRepository.deleteById(id);
     }
 
     private PostDTO maptoDTO(Post post){//map entity to dto
