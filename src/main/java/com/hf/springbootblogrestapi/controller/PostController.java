@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController()
 @AllArgsConstructor
@@ -26,8 +26,9 @@ public class PostController {
     @GetMapping
     public PostResponse getallposts(@RequestParam(value = "pageNo",required = false,defaultValue = "0") int pageNo,
                                     @RequestParam(value = "pageSize",required = false,defaultValue = "10") int pageSize,
-                                    @RequestParam(value = "sortBy",required = false,defaultValue = "id")String sortBy){
-        return postService.getAllPosts(pageNo,pageSize,sortBy);
+                                    @RequestParam(value = "sortBy",required = false,defaultValue = "id")String sortBy,
+                                    @RequestParam(value = "sortDir",required = false,defaultValue = "asc")String sortDir){
+        return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
     }
     @GetMapping("{Id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable(name = "Id") long Id){
