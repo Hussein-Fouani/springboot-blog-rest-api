@@ -6,7 +6,7 @@ import com.hf.springbootblogrestapi.DTOS.PostResponse;
 public interface PostService {
     PostDTO creatPost(PostDTO postDTO);
 
-    PostResponse getAllPosts(int pageNo, int pageSize,String sortBy);
+    PostResponse getAllPosts(int pageNo, int pageSize,String sortBy,String sortDir);
 
     PostDTO getPostbyId(long Id);
 
