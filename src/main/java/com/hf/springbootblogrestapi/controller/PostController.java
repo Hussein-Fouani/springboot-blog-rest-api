@@ -4,6 +4,7 @@ package com.hf.springbootblogrestapi.controller;
 import com.hf.springbootblogrestapi.DTOS.PostDTO;
 import com.hf.springbootblogrestapi.DTOS.PostResponse;
 import com.hf.springbootblogrestapi.service.PostService;
+import com.hf.springbootblogrestapi.utils.Constants;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,10 @@ public class PostController {
 
     }
     @GetMapping
-    public PostResponse getallposts(@RequestParam(value = "pageNo",required = false,defaultValue = "0") int pageNo,
-                                    @RequestParam(value = "pageSize",required = false,defaultValue = "10") int pageSize,
-                                    @RequestParam(value = "sortBy",required = false,defaultValue = "id")String sortBy,
-                                    @RequestParam(value = "sortDir",required = false,defaultValue = "asc")String sortDir){
+    public PostResponse getallposts(@RequestParam(value = "pageNo",required = false,defaultValue = Constants.DEFAULT_PAGE_NUMBER) int pageNo,
+                                    @RequestParam(value = "pageSize",required = false,defaultValue = Constants.DEFAULT_PAGE_SIZE) int pageSize,
+                                    @RequestParam(value = "sortBy",required = false,defaultValue = Constants.DEFAULT_SORT_BY)String sortBy,
+                                    @RequestParam(value = "sortDir",required = false,defaultValue = Constants.DEFAULT_SORT_DIRECTION)String sortDir){
         return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
     }
     @GetMapping("{Id}")
