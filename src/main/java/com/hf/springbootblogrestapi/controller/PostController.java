@@ -12,9 +12,8 @@ import java.util.List;
 
 @RestController()
 @AllArgsConstructor
-@RequestMapping("/api/posts")
+@RequestMapping("/api/posts/")
 public class PostController {
-    private static final String API_POST_PATH ="/api/posts";
 
     private PostService postService;
 
@@ -27,4 +26,20 @@ public class PostController {
     public List<PostDTO> getallposts(){
         return postService.getAllPosts();
     }
+    @GetMapping("{Id}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable(name = "Id") long Id){
+        return ResponseEntity.ok(postService.getPostbyId(Id));
+    }
+    @PutMapping("{Id}")
+    public ResponseEntity<PostDTO> updatePostbyId(@RequestBody  PostDTO postDTO,@PathVariable long Id){
+        PostDTO postDTO1 = postService.UpdatePostById(Id,postDTO);
+        return new ResponseEntity<>(postDTO1,HttpStatus.OK);
+    }
+
+    @DeleteMapping("{Id}")
+    public ResponseEntity<String> deletebyId(@PathVariable("Id") long Id){
+        postService.deletePost(Id);
+        return new ResponseEntity<>("Post Entity was successfully Deleted",HttpStatus.OK);
+    }
+
 }
