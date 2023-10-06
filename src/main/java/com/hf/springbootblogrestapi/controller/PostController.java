@@ -5,6 +5,7 @@ import com.hf.springbootblogrestapi.DTOS.PostDTO;
 import com.hf.springbootblogrestapi.DTOS.PostResponse;
 import com.hf.springbootblogrestapi.service.PostService;
 import com.hf.springbootblogrestapi.utils.Constants;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO){
         return   new ResponseEntity<>(postService.creatPost(postDTO), HttpStatus.CREATED);
 
     }
@@ -36,7 +37,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostbyId(Id));
     }
     @PutMapping("{Id}")
-    public ResponseEntity<PostDTO> updatePostbyId(@RequestBody  PostDTO postDTO,@PathVariable long Id){
+    public ResponseEntity<PostDTO> updatePostbyId(@Valid @RequestBody  PostDTO postDTO,@PathVariable long Id){
         PostDTO postDTO1 = postService.UpdatePostById(Id,postDTO);
         return new ResponseEntity<>(postDTO1,HttpStatus.OK);
     }
