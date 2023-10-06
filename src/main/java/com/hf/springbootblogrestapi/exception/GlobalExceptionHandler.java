@@ -1,6 +1,7 @@
 package com.hf.springbootblogrestapi.exception;
 
 import com.hf.springbootblogrestapi.DTOS.ErrorDetails;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,12 @@ public class GlobalExceptionHandler  {
         ErrorDetails errorDetails = new ErrorDetails(new Date(),exception.getMessage(), webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatusCode.valueOf(404));
 
+    }
+
+    @ExceptionHandler(blogApiException.class)
+    public ResponseEntity<ErrorDetails> handleBlogApiException(blogApiException exception,WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(),exception.getMessage(), webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails,HttpStatus.BAD_REQUEST);
     }
 
 }
