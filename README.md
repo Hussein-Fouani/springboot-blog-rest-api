@@ -1,98 +1,94 @@
-# Building Real-Time RESTful APIs with Spring - Blog App
+# Spring Boot Blog REST API
 
-<div align="center">
-  <img src="https://sunai.cl/wp-content/uploads/logo-rest-api.png" alt="Project Logo">
-</div>
+A REST API for a simple blog built with Spring Boot: manage posts and their comments, with pagination, sorting, validation and centralized error handling.
 
-## Table of Contents
+## Tech Stack
 
-- [About](#about)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Learning Objectives](#learning-objectives)
-- [How to Use](#how-to-use)
-- [Documentation and Testing](#documentation-and-testing)
-- [Deployment](#deployment)
-- [Dockerization](#dockerization)
-- [Profiles and Environments](#profiles-and-environments)
-- [AWS Deployment](#aws-deployment)
-
-## About
-
-This project is an immersive journey into creating a dynamic Blog Application with real-time capabilities using the Spring framework. It encompasses a wide array of concepts and tools, including Spring Boot, Spring Security, JWT, Spring Data JPA (Hibernate), and MySQL database.
+- Java 17, Spring Boot 3.1
+- Spring Web, Spring Data JPA (Hibernate)
+- MySQL
+- Bean Validation
+- ModelMapper, Lombok
 
 ## Features
 
-- Build robust CRUD REST API's for efficient data management.
-- Implement Pagination, Sorting, and Search/Filter functionalities for enhanced user experience.
-- Establish secure Login/Sign-in and Signup functionality with Spring Security, JWT, and role-based authorization.
-- Utilize Lombok and DTO's for streamlined code and data handling.
-- Handle exceptions and validations in Spring Boot REST APIs.
-- Explore In-memory and Database authentication and authorization strategies.
-- Implement one-to-many and many-to-many JPA mappings for complex data relationships.
-- Test REST APIs using Postman and document them with Swagger UI.
-- Version REST APIs using industry-standard strategies.
-- Customize Swagger documentation with annotations.
-- Manage profiles for deployment in different environments.
-- Implement Transaction Management with Spring Boot and Spring Data JPA.
+- CRUD for posts
+- CRUD for comments nested under a post (one-to-many mapping)
+- Pagination and sorting for the post list
+- Request validation with field-level error messages
+- Global exception handling (404 for missing resources, 400 for invalid requests or a comment that does not belong to the post)
 
-## Technologies Used
+The project also contains `User` and `Role` entities and repositories (many-to-many mapping) as groundwork for authentication; there are no authentication endpoints yet.
 
-- Spring Boot
-- Spring Security
-- JWT (JSON Web Token)
-- Spring Data JPA (Hibernate)
-- MySQL
-- Lombok
-- Swagger UI
-- Docker and Docker Compose
-- AWS (Amazon Web Services)
+## Getting Started
 
-## Learning Objectives
+### Prerequisites
 
-This project is designed to provide hands-on experience and understanding of the following key topics:
+- JDK 17
+- MySQL running locally
 
-- Building RESTful APIs with Spring Boot, covering resource, sub-resource, URI, HTTP methods, and status codes.
-- Implementing Pagination, Sorting, and Search/Filter functionality for data retrieval.
-- Securing REST APIs with Spring Security, JWT, and role-based authorization.
-- Utilizing Lombok and DTOs for efficient code and data management.
-- Handling exceptions and performing validations in Spring Boot REST APIs.
-- Versioning REST APIs and documenting them using Swagger UI.
-- Customizing Swagger documentation with annotations.
-- Managing profiles for deployment in different environments.
-- Deploying the Spring Boot Blog app on AWS cloud for production.
-- Dockerizing Spring Boot applications and MySQL CRUD application.
+### Configuration
 
-## How to Use
+Create the database:
 
-To get started with this project, follow these steps:
+```sql
+CREATE DATABASE blogappdb;
+```
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/spring-blog-app.git
-   ```
+Connection settings are in `src/main/resources/application.properties`:
 
-2. Open the project in your preferred IDE (e.g., IntelliJ IDEA or Eclipse).
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/blogappdb?useSSL=false
+spring.datasource.username=${DB_USERNAME:root}
+spring.datasource.password=${DB_PASSWORD:root}
+```
 
-3. Build and run the application.
+Set the `DB_USERNAME` and `DB_PASSWORD` environment variables to override the default `root`/`root` credentials. Tables are created automatically (`spring.jpa.hibernate.ddl-auto=update`).
 
-## Documentation and Testing
+### Run
 
-Explore the [Wiki](https://github.com/yourusername/spring-blog-app/wiki) for detailed API documentation and usage examples. Test the Spring Boot REST APIs with JWT using Swagger UI.
+```bash
+git clone https://github.com/Hussein-Fouani/springboot-blog-rest-api.git
+cd springboot-blog-rest-api
+./mvnw spring-boot:run
+```
 
-## Deployment
+The API runs on `http://localhost:8080`.
 
-For deployment instructions, refer to the [Deployment Guide](deployment.md).
+## API Endpoints
 
-## Dockerization
+### Posts
 
-Learn how to Dockerize both the Spring Boot Application and MySQL CRUD Application in the [Dockerization Guide](dockerization.md).
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/posts/` | Create a post |
+| GET | `/api/posts/?pageNo=0&pageSize=10&sortBy=id&sortDir=asc` | List posts (all query parameters optional) |
+| GET | `/api/posts/{id}` | Get a post by id |
+| PUT | `/api/posts/{id}` | Update a post |
+| DELETE | `/api/posts/{id}` | Delete a post and its comments |
 
-## Profiles and Environments
+Post body:
 
-Understand how to add profiles for deploying in different environments in the [Profiles Guide](profiles.md).
+```json
+{ "title": "My first post", "description": "Short description", "content": "Post content" }
+```
 
-## AWS Deployment
+`title` needs at least 4 characters, `description` at least 10, `content` must not be empty.
 
-Follow the [AWS Deployment Guide](aws-deployment.md) for step-by-step instructions on deploying the Spring boot Blog app on AWS cloud for production.
+### Comments
 
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/posts/{postId}/comment` | Add a comment to a post |
+| GET | `/api/posts/{postId}/comment` | List a post's comments |
+| GET | `/api/posts/{postId}/comment/{commentId}` | Get a comment |
+| PUT | `/api/posts/{postId}/comment/{commentId}` | Update a comment |
+| DELETE | `/api/posts/{postId}/comment/{commentId}` | Delete a comment |
+
+Comment body:
+
+```json
+{ "name": "John Doe", "email": "john@example.com", "body": "Great article, thanks!" }
+```
+
+`name` needs 5–255 characters, `body` 10–255 characters, `email` must be a valid email address.
