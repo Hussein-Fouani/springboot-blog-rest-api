@@ -1,5 +1,6 @@
 package com.hf.springbootblogrestapi.DTOS;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hf.springbootblogrestapi.entity.Post;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,6 +24,7 @@ public class CommentDTO {
     @Email
     @Size(max = 255,message = "Email shouldn't exceed 255 characters")
     private String email;
+    @JsonIgnore
     private Post post;
 
 }
