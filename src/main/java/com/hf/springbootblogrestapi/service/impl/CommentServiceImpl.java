@@ -27,14 +27,14 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO createComment(CommentDTO comment, long id){
         Comment comment1 =mapToEntity(comment);
         Post post =postRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Post","id",id));
-        comment.setPost(post);
+        comment1.setPost(post);
         Comment comment2 =commentRepository.save(comment1);
         return mapToDTO(comment2);
     }
 
     @Override
     public List<CommentDTO>  getCommentsByPostId(long id) {
-       List<Comment> comments = commentRepository.findPostById(id);
+       List<Comment> comments = commentRepository.findByPostId(id);
        return  comments.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 

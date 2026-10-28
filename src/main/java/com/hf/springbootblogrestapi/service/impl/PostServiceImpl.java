@@ -45,6 +45,7 @@ public class PostServiceImpl implements PostService {
         postResponse.setPageSize(list.getSize());
         postResponse.setTotalElements(list.getTotalElements());
         postResponse.setTotalPages(list.getTotalPages());
+        postResponse.setLast(list.isLast());
         return postResponse;
     }
 
@@ -60,7 +61,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post","id",id));
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
-        post.setDescription(post.getDescription());
+        post.setDescription(postDTO.getDescription());
 
        Post post1 = postRepository.save(post);
          return mapToDTO(post1);
